@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {{data}}
-    <h1>welcome to hell!!</h1>
-</body>
-</html>
+{% extends "includes/layouts.html"%} 
+<!-- 진자 엔진의 import방법 = extends -->
+{% block body %}
+<h1 class="display-4">ABOUT PAGE</h1>
+<p class="lead">This Application is build using by python and Flask Framework</p>
+<hr class="my-4">
+<a class="btn btn-warning btn-lg" href="#" role="button">Learn more</a>
+{% endblock %}
+
+{% block p %}
+<p>this is test</p>
+{% endblock %}
