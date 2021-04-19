@@ -26,8 +26,13 @@ def articles():
     articles = Articles()
     # for _ in range(0,2):
     #     print(articles[_]['body'])
+    return render_template("articles.html",article = articles)
 
-    return render_template("articles.html",article=articles)
+@app.route('/article/<int:id>') #<>는 params
+def article(id):
+    articles = Articles()
+    article = articles[id-1]
+    return render_template("article.html", article = article)
 
 if __name__ == '__main__': #모듈의 시작점을 만듦, 프로그램의 시작점일 떄만 아래의 코드 실행
     app.run()
