@@ -1,38 +1,86 @@
-from flask import Flask , render_template
+from flask import Flask, render_template, request, redirect
 from data import Articles
+import pymysql
 
-app = Flask(__name__) #__&&__ 는 내장변수
 
-app.debug = True #오류를 웹폐이지 상에 띄워줌(단점 나의 폴더 목록도 다 보이기 떄문에 개발 할 때만 True)
+app = Flask(__name__)
+app.debug = True
+db = pymysql.connect(
+    host='localhost',
+    port=3306,
+    user='root',
+    password='ekthdlek12',
+    db='busan'
+)
 
-@app.route('/main', methods=['GET']) #route : 중계하다 , @ : decorate // /data 폴더의 뒤로 경로 지정
+
+@app.route('/main', methods=['GET'])
 def index():
-    # return "Welcom to hell"
-    return render_template("main.html") 
-    #렌더 템플릿을 이용하여 index.hmtl을 보여줌
-    #랜더 템플릿은 첫번째 인자로 html파일 경로, 두번째로 인자로 전달할 데이터를 받음
-    #렌더 템플릿은 {{$$$}}안에 파이썬 코드(여기선 변수)가 있으면 그 파이썬 코드를 html로 바꿔줌.
-    ################ 사용 예제 ################
-    #렌더 템플릿은 jinja2 기반
-    #{{...}} : 변수나 표현식의 결과를 출력하는 구분자
-    #{%...%} : if문이나 각종 제어문
+  # return "Hello World"
+  return render_template("main.html", data="KIM")
+
 
 @app.route('/abt')
 def about():
-    return render_template("about.html", hello = "Hyunsul Kim")
+  return render_template("about.html", hello="Gary Kim")
+
 
 @app.route('/art')
 def articles():
-    articles = Articles()
-    # for _ in range(0,2):
-    #     print(articles[_]['body'])
-    return render_template("articles.html",article = articles)
+  cursor = db.cursor()
+  sql = 'SELECT * FROM topic;'
+  cursor.execute(sql)
+  topics = cursor.fetchall()
+  # print(topics)
+  # articles = Articles()
+  # print(articles[0]['title'])
+  return render_template("articles.html", article=topics)
 
-@app.route('/article/<int:id>') #<>는 params
+
+@app.route('/article/<int:id>')
 def article(id):
-    articles = Articles()
-    article = articles[id-1]
-    return render_template("article.html", article = article)
+  cursor = db.cursor()
+  sql = 'SELECT * FROM topic WHERE id={}'.format(id)
+  cursor.execute(sql)
+  topic = cursor.fetchone()  # fetchone과 fetchall의 차이
+  # articles = Articles()
+  # article = articles[id-1]
+  return render_template("article.html", article=topic)
 
-if __name__ == '__main__': #모듈의 시작점을 만듦, 프로그램의 시작점일 떄만 아래의 코드 실행
-    app.run()
+
+@app.route('/art_add', methods=["GET", "POST"])
+def art_add():
+  cursor = db.cursor()
+  if request.method == "POST":
+    title = request.form['title']
+    author = request.form['author']
+    desc = request.form['description']
+
+    sql = 'INSERT INTO `topic` (`title`, `author`, `body`) VALUES (%s, %s, %s);'
+    input_data = [title, author, desc]
+    cursor.execute(sql, input_data)
+    db.commit()
+    # db.close()
+    return redirect('/art')
+  else:
+    return render_template("art_add.html")
+
+
+@app.route('/delete/<int:id>', methods=['POST'])
+def delete(id):
+  cousour = db.cursor()
+  # sql = 'DELETE FROM `topic` WHERE id = %s;'
+  # id = [id]
+  # cousour.execute(sql, id)
+  sql = 'DELETE FROM `topic` WHERE id = {};'.format(id)
+  cousour.execute(sql)
+  db.commit()
+
+  return redirect('/art')
+
+# @app.route('/art_add', methods=['POST'])
+# def art_insert():
+#   # return render_template("art_add.html")
+#   return "Success"
+if __name__ == '__main__':
+  app.run()
