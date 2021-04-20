@@ -41,7 +41,9 @@
               <td>{{ article[3] }}</td>
               <td>{{ article[4] }}</td>
               <td>
+                <form>
                   <button type="button" class="btn btn-primary">Edit</button>
+                </form>
                 <form action="/delete/{{article[0]}}" style="margin-top: 10%;" method="POST" onsubmit="return confirm('REALLY DELETE?')">
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>

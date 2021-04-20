@@ -75,8 +75,14 @@ def delete(id):
   sql = 'DELETE FROM `topic` WHERE id = {};'.format(id)
   cousour.execute(sql)
   db.commit()
-
   return redirect('/art')
+
+# @app.route('/update/<int:id>')
+# def update(id):
+#   sql = 'DELETE FROM `topic` WHERE id = {};'.format(id)
+#   cousour.execute(sql)
+#   db.commit()
+#   return redirect('/art')
 
 # @app.route('/art_add', methods=['POST'])
 # def art_insert():
