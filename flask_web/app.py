@@ -148,5 +148,7 @@ def login():
         return redirect('/main')
   else:
     return render_template("main.html")
+
+    
 if __name__ == '__main__':
   app.run()
