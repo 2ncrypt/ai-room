@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from data import Articles
 import pymysql
+from passlib.hash import sha256_crypt
 
 
 app = Flask(__name__)
@@ -84,8 +85,10 @@ def edit(id):
     if request.method == "POST":
       title = request.form['title']
       author = request.form['author']
-      sql = 'UPDATE `busan`.`topic` SET title = %s , author=%s  WHERE id ={} ;'.format(id)
-      update_data = [title, author]
+      desc = request.form['description']
+
+      sql = 'UPDATE `busan`.`topic` SET title = %s , author = %s ,body = %s WHERE id ={} ;'.format(id)
+      update_data = [title, author, desc ]
       cursor.execute(sql, update_data)
       db.commit()
       return redirect(f'/article/{id}')
@@ -99,10 +102,43 @@ def edit(id):
         print(topic[1])
         return render_template("art_edit.html", article=topic)
 
+@app.route('/assignment', methods=["GET", "POST"])
+def assinment():  
+  cursor = db.cursor()
+  if request.method == "POST":
+    userid = request.form['userid']
+    userpwd = sha256_crypt.encrypt(request.form['password'])
+    number = request.form['number']
+    email = request.form['email']
 
-# @app.route('/art_add', methods=['POST'])
-# def art_insert():
-#   # return render_template("art_add.html")
-#   return "Success"
+    # pwcrypt = sha256_crypt.verify("password",password)
+    # if pwcrypt == TRUE :
+    sql = 'INSERT INTO `assignment` (`userid`, `userpwd`, `number`, `email`) VALUES (%s, %s, %s,%s);'
+    asg_data = [userid, userpwd, number, email]
+    cursor.execute(sql, asg_data)
+    db.commit()
+    # db.close()
+    # flash("Assignment Success")
+    return redirect('/main')
+  else:
+    return render_template("assignment.html")
+
+@app.route('/login',methods=["GET","POST"])
+def login():
+  cursor = db.cursor()
+  if request.method =="POST":
+    userid_ = request.form['userid']
+    userpw_ = request.form['userpw']
+    print(userid_)
+    print(userpw_)
+    sql = 'SELECT userpwd FROM assignment WHERE email = %s;'
+    input_data = [userid_]
+    cursor.execute(sql, input_data)
+    userpw = cursor.fetchone()
+    if sha256_crypt.verify(userpw_,userpw[0]):
+      return "TEST"
+  else:
+    return userpw[0]
+
 if __name__ == '__main__':
   app.run()

@@ -1,0 +1,43 @@
+{% extends 'include/layouts.html' %}
+
+
+{% block body %}
+<div class="main-container">
+    <!-- horizontal Basic Forms Start -->
+    <div class="pd-20 card-box mb-30">
+        <div class="clearfix">
+            <div class="pull-left">
+                <h4 style="margin-top: 10%;" class="text-blue h4">Assignment page</h4>
+            </div>
+
+        </div>
+        <form action="/assignment" method="POST" onsubmit="return confirm('이대로 가입하시겠습니까?')">
+            <div class="form-group">
+                <label>ID</label>
+                <input class="form-control" type="id" name='userid' placeholder="input your ID" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name='password' class="form-control" placeholder="input your PASSWORD" required>
+            </div>
+            <div class="form-group">
+                <label>Phone number</label>
+                <input type="number" name='number' class="form-control" placeholder="input your Phone number" required>
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="e-mail" name='email' class="form-control" placeholder="input your E-mail" required>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-dark btn-lg btn-block" type="submit" value="가입신청">
+            </div>
+            <div class="form-group">
+                <a class="btn btn-primary btn-lg btn-block" href="/art"> 돌아가기</a>
+
+            </div>
+        </form>
+
+    </div>
+    <!-- horizontal Basic Forms End -->
+</div>
+{% endblock %}
