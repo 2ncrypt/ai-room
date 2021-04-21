@@ -1,0 +1,29 @@
+{% extends "include/layouts.html" %}
+{% block body %}
+<div class="main-container">
+    <!-- horizontal Basic Forms Start -->
+    <div class="pd-20 card-box mb-30">
+        <div class="clearfix">
+            <div class="pull-left">
+                <h4 style="margin-top: 10%;" class="text-blue h4">Update Board</h4>
+                <p class="mb-30">Update Page</p>
+            </div>
+        </div>
+        <form action="/{{article[0]}}/edit" method="post" onsubmit="return confirm('정말 수정 하시겠습니까?')">
+            ​<div class="form-group">
+                <label>TITLE</label>
+                <input type="text" name="title" value="{{article[1]}}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>AUHOR</label>
+                <input type="text" name="author" value="{{article[2]}}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>DESCRIPTON</label>
+                <textarea type="text" class="form-control" name="description" disabled></textarea>
+            </div>
+            <input class="btn btn-dark btn-lg btn-block" type="submit" value="수정하기">
+            ​
+        </form>
+        <a class="btn btn-primary btn-lg btn-block" href="/art" role="button">돌아가기</a>
+        {% endblock %}

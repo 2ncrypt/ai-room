@@ -3,11 +3,11 @@
 {% block body %}
 <div class="card">
   <div class="card-header">
-      {{ article[3] }}
+      Title : {{ article[1] }}
   </div>
   <div class="card-body">
-    <h5 class="card-title">{{ article[1] }}</h5>
-    <p class="card-text">{{ article[2] }}</p>
+    <h5 class="card-title">Author : {{ article[2] }}</h5>
+    <p class="card-text">Descripton : <br>{{ article[3] }}</p>
     <a href="/art" article="btn btn-primary"><button type="button" class="btn btn-dark">Back</button></a>
     
   </div>

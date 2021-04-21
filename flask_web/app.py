@@ -77,12 +77,28 @@ def delete(id):
   db.commit()
   return redirect('/art')
 
-# @app.route('/update/<int:id>')
-# def update(id):
-#   sql = 'DELETE FROM `topic` WHERE id = {};'.format(id)
-#   cousour.execute(sql)
-#   db.commit()
-#   return redirect('/art')
+
+@app.route('/<int:id>/edit', methods=['GET', 'POST'])
+def edit(id):
+    cursor = db.cursor()
+    if request.method == "POST":
+      title = request.form['title']
+      author = request.form['author']
+      sql = 'UPDATE `busan`.`topic` SET title = %s , author=%s  WHERE id ={} ;'.format(id)
+      update_data = [title, author]
+      cursor.execute(sql, update_data)
+      db.commit()
+      return redirect(f'/article/{id}')
+
+    else:
+        sql = "SELECT * FROM topic WHERE id = {}".format(id)
+        cursor.execute(sql)
+        topic = cursor.fetchone()
+        # print(topic, '\n')
+
+        print(topic[1])
+        return render_template("art_edit.html", article=topic)
+
 
 # @app.route('/art_add', methods=['POST'])
 # def art_insert():
