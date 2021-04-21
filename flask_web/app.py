@@ -127,18 +127,26 @@ def assinment():
 def login():
   cursor = db.cursor()
   if request.method =="POST":
-    userid_ = request.form['userid']
-    userpw_ = request.form['userpw']
-    print(userid_)
-    print(userpw_)
-    sql = 'SELECT userpwd FROM assignment WHERE email = %s;'
-    input_data = [userid_]
+    userid = request.form['userid']
+    userpw = request.form['userpw']
+    # print(userid_)
+    # print(userpw_)
+    sql = 'SELECT * FROM assignment WHERE userid = %s;'
+    input_data = [userid]
     cursor.execute(sql, input_data)
-    userpw = cursor.fetchone()
-    if sha256_crypt.verify(userpw_,userpw[0]):
-      return "TEST"
-  else:
-    return userpw[0]
+    user= cursor.fetchone()
 
+    if user == None:
+      print(user)
+      return "None userid"
+    else:
+      if user[1] == userid:
+        if sha256_crypt.verify(userpw,user[2]):
+          return redirect('/abt')
+        return "password Error"
+      else:
+        return redirect('/main')
+  else:
+    return render_template("main.html")
 if __name__ == '__main__':
   app.run()
