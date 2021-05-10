@@ -40,8 +40,13 @@ from tensorflow.keras.models import Sequential
 
 ![image-20210510121822501](/Users/hyunsul/Library/Application Support/typora-user-images/image-20210510121822501.png) **예시**
 
+예측선 긋기 : 선형회귀 테스트 소스 linear_regression_example.ipynb
 
+## 4장 경사하강법
 
+경사하강법은 따로 못 적었는데 
+예제코드에 주석을 달아 처리하여서 
+따로 공부할때 하나하나 정리할 예정
 
 
 
