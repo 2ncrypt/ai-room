@@ -63,4 +63,25 @@ Pooling은 주어진 데이터에서만 연산
 여기서도 연산할때 w, h를 잘 맞춰야함 아니면 Error뜸
 ![image-20210517193705807](/Users/hyunsul/Library/Application Support/typora-user-images/image-20210517193705807.png)
 
-Pooling
+Convolution with padding
+패딩을 그냥 하게되면 데이터가 없어서 안되는 경우가 허다함.
+그래서 패딩에는 4가지 방법이있음.
+![image-20210517200449560](/Users/hyunsul/Library/Application Support/typora-user-images/image-20210517200449560.png)
+ㄴㅏ머지 한 가지는 ZeroPadding인데 위의 3가지와는 다르게 빈 공간에 전부 0으로 채우는것
+Pytorch에서는 padding_mod='mode'로 사용
+
+Convolution Layer : 1 * 1 convolution
+굳이 1*1 convolution을 하는 이유는 
+FeatureMap의 C축을 의도적으로 늘리고 싶을때나, 줄이고싶을때
+![image-20210517200645849](/Users/hyunsul/Library/Application Support/typora-user-images/image-20210517200645849.png)
+
+Pooling Layers
+하는 이유는 representation을 더 작게 만들기 위하여
+![image-20210517200735988](/Users/hyunsul/Library/Application Support/typora-user-images/image-20210517200735988.png)
+
+Max Pooling은
+![image-20210517200752168](/Users/hyunsul/Library/Application Support/typora-user-images/image-20210517200752168.png)
+ 값이 이러하고, 2x2 filter일때 제일 큰값만 가져와 featuremap을 만드는것. 
+
+## 소스코드(내일할랭)
+
