@@ -1,0 +1,40 @@
+import sys
+import numpy as np
+import cv2
+
+
+# 영상 불러오기
+src1 = cv2.imread('/Users/hyunsul/Desktop/ai-room/OpenCV2_python/ch09/graf1.png', cv2.IMREAD_GRAYSCALE)
+src2 = cv2.imread('/Users/hyunsul/Desktop/ai-room/OpenCV2_python/ch09/graf3.png', cv2.IMREAD_GRAYSCALE)
+
+if src1 is None or src2 is None:
+    print('Image load failed!')
+    sys.exit()
+
+# 특징점 알고리즘 객체 생성 (KAZE, AKAZE, ORB 등)
+feature = cv2.KAZE_create()
+feature1 = cv2.AKAZE_create()#hamming distance를 사용가능
+feature2 = cv2.ORB_create()
+
+for f in (feature,feature1,feature2):
+    # 특징점 검출 및 기술자 계산
+    kp1, desc1 = f.detectAndCompute(src1, None)
+    kp2, desc2 = f.detectAndCompute(src2, None)
+
+    # 특징점 매칭
+    matcher = cv2.BFMatcher_create()
+
+    matches = matcher.match(desc1, desc2)
+
+    # 특징점 매칭 결과 영상 생성
+    dst = cv2.drawMatches(src1, kp1, src2, kp2, matches, None)
+
+    print(f'{f} of kp1:', len(kp1))
+    print(f'{f} of kp2:', len(kp2))
+    print(f'{f} of matches:', len(matches),'\n')
+
+    cv2.imshow('dst', dst)
+    cv2.moveWindow('dst', 100, 300)
+    cv2.waitKey()
+
+cv2.destroyAllWindows()
