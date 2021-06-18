@@ -4,8 +4,8 @@ import cv2
 
 
 # 영상 불러오기
-src1 = cv2.imread('graf1.png', cv2.IMREAD_GRAYSCALE)
-src2 = cv2.imread('graf3.png', cv2.IMREAD_GRAYSCALE)
+src1 = cv2.imread('/Users/hyunsul/Desktop/ai-room/OpenCV2_python/ch09/graf1.png', cv2.IMREAD_GRAYSCALE)
+src2 = cv2.imread('/Users/hyunsul/Desktop/ai-room/OpenCV2_python/ch09/graf3.png', cv2.IMREAD_GRAYSCALE)
 
 if src1 is None or src2 is None:
     print('Image load failed!')
@@ -41,5 +41,6 @@ dst = cv2.drawMatches(src1, kp1, src2, kp2, good_matches, None)
 
 cv2.namedWindow('dst',cv2.WINDOW_NORMAL)
 cv2.imshow('dst', dst)
+cv2.moveWindow('dst', 100, 300)
 cv2.waitKey()
 cv2.destroyAllWindows()
